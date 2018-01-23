@@ -1,0 +1,15 @@
+---
+- name: Installing pre-requisite packages
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - "{{ pkg_names }}"
+
+- name: upgrading pip
+  command: pip install --upgrade pip
+
+- name: installing packages via pip
+  pip:
+    name: requests
+    state: latest

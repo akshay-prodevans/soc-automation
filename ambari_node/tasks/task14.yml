@@ -1,0 +1,22 @@
+---
+- name: create folder for local repo
+  file:
+    path: /localrepo
+    state: directory
+    mode: 0755
+
+#- name: copy content into localrepo
+#  copy:
+#    src: /opt/metron_files/localrepo/
+#    dest: /localrepo/
+#  delegate_to: 127.0.0.1
+#- name: copy content into localrepo
+#  script: task14.sh
+#  delegate_to: 127.0.0.1
+
+#- name: copy content init localrepo
+#  shell: 'scp -r /root/metron_files/localrepo/* root@{{ ambari_ip }}:/localrepo/'
+#  delegate_to: 127.0.0.1
+
+- name: create local repo
+  command: createrepo /localrepo

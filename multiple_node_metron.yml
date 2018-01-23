@@ -1,0 +1,6 @@
+---
+- hosts: "{{ metron_ip }}"
+  roles:
+  - metron_node
+  tasks:
+  - debug: msg="Setup Completed on Metron Node"

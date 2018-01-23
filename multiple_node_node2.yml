@@ -1,0 +1,6 @@
+---
+- hosts: "{{ node2_ip }}"
+  roles:
+  - node2_node
+  tasks:
+  - debug: msg="Setup Completed on Node2"

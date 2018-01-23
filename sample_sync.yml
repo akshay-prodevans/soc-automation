@@ -1,0 +1,26 @@
+---
+- hosts: 192.168.1.206
+  become: true
+  tasks:
+  - synchronize:
+      src: /localrepo/
+      dest: /localrepo/
+    delegate_to: 192.168.1.174
+  - shell: scp -r /localrepo/ root@192.168.1.119:/localrepo/
+    delegate_to: 192.168.1.174
+
+- hosts: 192.168.1.173
+  become: true
+  tasks:
+  - synchronize:
+      src: /localrepo/
+      dest: /localrepo/
+    delegate_to: 192.168.1.174
+
+- hosts: 192.168.1.119
+  become: true
+  tasks:
+  - synchronize:
+      src: /localrepo/
+      dest: /localrepo/
+    delegate_to: 192.168.1.174

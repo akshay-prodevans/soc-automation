@@ -1,0 +1,34 @@
+---
+- name: determine if EPEL repo is already configured
+  stat: path={{ epel_repo_file }}
+  register: repo
+
+#- name: import EPEL GPG key
+#  rpm_key:
+#    key: "{{ epel_gpg_url }}"
+#    state: present
+#  when: not repo.stat.exists
+
+- name: install EPEL repository
+  yum:
+    name: "{{ epel_repo_url }}"
+    state: present
+  register: result
+  until: '"failed" not in result'
+  retries: 5
+  delay: 10
+  when: not repo.stat.exists
+
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: installing vim tmux htop
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - vim
+    - tmux
+    - htop

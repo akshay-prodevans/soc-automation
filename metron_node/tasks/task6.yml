@@ -1,0 +1,17 @@
+---
+- name: disabling ipv6 on running machine
+  command: sysctl -w net.ipv6.conf.all.disable_ipv6=1
+
+- name: disabling ipv6 on running machine
+  command: sysctl -w net.ipv6.conf.default.disable_ipv6=1
+
+- name: disabling ipv6 to survive a reboot
+  lineinfile:
+    path: /etc/sysctl.conf
+    state: present
+    line: "{{ item.line }}"
+  with_items:
+    - { line: 'net.ipv6.conf.all.disable_ipv6 = 1' }
+    - { line: 'net.ipv6.conf.default.disable_ipv6 = 1' }
+#  notify:
+#    - restart network

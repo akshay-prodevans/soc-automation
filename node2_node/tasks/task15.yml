@@ -1,0 +1,15 @@
+---
+- name: download metron hadoop logrotate yml file
+  get_url:
+    url: https://raw.githubusercontent.com/apache/metron/master/metron-deployment/roles/ambari_common/templates/metron-hadoop-logrotate.yml
+    dest: /etc/logrotate.d/metron-ambari
+    mode: 0644
+
+#- name: logrotate script for hadoop service
+#  shell: sed -i 's/^  {{ hadoop_logrotate_frequency }}.*$/  daily/' /etc/logrotate.d/metron-ambari
+
+#- name: logrotate script for hadoop service
+#  shell: sed -i 's/^  rotate {{ hadoop_logrotate_retention }}.*$/  rotate 30/' /etc/logrotate.d/metron-ambari
+#
+- name: logrotate script for hadoop service
+  script: task15.sh

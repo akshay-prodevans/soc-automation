@@ -1,0 +1,14 @@
+---
+- name: enabling ports on machine
+  firewalld: 
+    port: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+  - "{{ ports_allow }}"
+
+- name: reloading firewall
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes

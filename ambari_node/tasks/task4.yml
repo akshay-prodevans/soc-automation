@@ -1,0 +1,36 @@
+---
+#- name: copy id_rsa.pub
+#  copy:
+#    src: id_rsa.pub
+#    dest: /root/.ssh/authorized_keys
+#    mode: 0600
+#    owner: root
+#    group: root
+- name: generating keys
+  command: ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""
+  ignore_errors: yes
+
+- name: fetch all public ssh keys
+  shell: cat /root/.ssh/id_rsa.pub
+  register: ssh_keys
+
+#- name: check keys
+#  debug:
+#    msg: "{{ ssh_keys.stdout }}"
+
+- name: copying ssh key file to localhost
+  lineinfile:
+    line: "{{ ssh_keys.stdout }}"
+    path: /tmp/id_rsa.pub
+    create: yes
+  delegate_to: 127.0.0.1
+#- add_host:
+#    name: 192.168.1.213
+#    groups: dy_ip
+
+#- hosts: dy_ip
+#  tasks:
+#  - name: deploy keys on all servers
+#    authorized_key:
+#      user: root
+#      key: "{{ ssh_keys.stdout }}"

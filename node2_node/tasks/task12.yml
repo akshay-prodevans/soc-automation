@@ -1,0 +1,25 @@
+---
+
+#- name: remove the local entries from host file
+#  blockinfile:
+#    path: /etc/hosts
+#    block: '^::1'
+#    state: absent
+#
+- name: removing local entries from hosts file
+  lineinfile:
+    path: /etc/hosts
+    state: absent
+    regexp: "{{ item.line }}"
+  with_items:
+  - { line: '^127.0.0.1   localhost localhost.localdomain localhost4' }
+  - { line: '^::1         localhost localhost.localdomain localhost6' }
+  
+
+- name: Add mappings to /etc/hosts
+  blockinfile:
+    path: /etc/hosts
+    block: |
+      {{ item.ip }} {{ item.name }}
+  with_items:
+  - { name: localhost, ip: 127.0.0.1 }

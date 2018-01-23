@@ -1,0 +1,20 @@
+---
+- name: create folder for local repo
+  file:
+    path: /localrepo
+    state: directory
+    mode: 0755
+
+#- name: copy content into localrepo
+#  synchronize:
+#    src: /var/lib/awx/projects/soc_automation/metron_files/localrepo/
+#    dest: /localrepo/
+#    mode: push
+#  delegate_to: "{{ tower_ip }}"
+
+#- name: copy content init localrepo
+#  shell: 'scp -r /localrepo/* root@{{ metron_ip }}:/localrepo#/'
+#  delegate_to: "{{ ambari_ip }}"
+
+- name: create local repo
+  command: createrepo /localrepo

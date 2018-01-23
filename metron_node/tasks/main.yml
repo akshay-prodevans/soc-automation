@@ -1,0 +1,13 @@
+---
+- include: task2.yml
+- include: task3.yml
+- include: task4.yml
+- include: task5.yml
+- include: task6.yml
+- include: task7.yml
+- include: task8.yml
+- include: task9.yml
+- include: task12.yml
+- include: task14.yml
+- include: task15.yml
+- include: task17.yml

@@ -1,0 +1,22 @@
+---
+- name: set the hostname
+  hostname:
+    name: '{{ node2_hostname }}'
+
+- name: Add mappings to /etc/hosts
+  blockinfile:
+    path: /etc/hosts
+    block: |
+      {{ item.ip }} {{ item.name }}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ item.name }}"
+  with_items:
+    - { name: '{{ ambari_hostname }}', ip: '{{ ambari_ip }}' }
+    - { name: '{{ node1_hostname }}', ip: '{{ node1_ip }}' }
+    - { name: '{{ node2_hostname }}', ip: '{{ node2_ip }}' }
+    - { name: '{{ metron_hostname }}', ip: '{{ metron_ip }}' }
+
+- name: adding nameserver
+  lineinfile:
+    path: /etc/resolv.conf
+    line: 'nameserver 8.8.8.8'
+    state: present

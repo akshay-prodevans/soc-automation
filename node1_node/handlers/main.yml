@@ -1,0 +1,17 @@
+---
+# handlers file for task3
+
+- name: restart sshd
+  service:
+    name: sshd
+    state: restarted
+
+- name: restart network
+  service:
+    name: network
+    state: restarted
+
+- name: restart ntp
+  service:
+    name: ntpd
+    state: restarted

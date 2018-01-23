@@ -1,0 +1,21 @@
+---
+#- name: fetch all public ssh keys
+#  shell: cat /tmp/id_rsa.pub
+#  register: ssh_keys
+
+#- name: check keys
+#  debug:
+#    msg: "{{ ssh_keys.stdout }}"
+- name: add .ssh directories
+  file:
+    path: /root/.ssh
+    state: directory
+    mode: 0700
+    owner: root
+    group: root
+
+- name: copying ssh copy id on metron node
+  copy:
+    src: /tmp/id_rsa.pub
+    dest: /root/.ssh/authorized_keys
+    force: yes

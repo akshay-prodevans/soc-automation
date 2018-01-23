@@ -1,0 +1,5 @@
+---
+- name: installing npm
+  yum:
+    name: npm
+    state: latest

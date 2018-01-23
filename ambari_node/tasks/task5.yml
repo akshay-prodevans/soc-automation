@@ -1,0 +1,14 @@
+---
+- name: Increase limits for ElasticSearch and Storm
+  lineinfile:
+    path: /etc/security/limits.conf
+    state: present
+    line: "{{ item.line }}"
+  with_items:
+    - { line: 'elasticsearch - memlock unlimited' }
+    - { line: 'storm - nproc 257597' }
+    - { line: '* - nofile 32768' }
+    - { line: '* - nproc 65536' }
+
+- shell: ulimit -n 32768
+- shell: ulimit -u 65536 

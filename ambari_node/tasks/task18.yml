@@ -1,0 +1,41 @@
+---
+- name: download ambari repo
+  get_url:
+    url: http://public-repo-1.hortonworks.com/ambari/centos6/2.x/updates/2.4.2.0/ambari.repo
+    dest: /etc/yum.repos.d/ambari.repo
+
+- name: upgrade all packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: creating target folder
+  file:
+    path: /root/metron/metron-deployment/packaging/ambari/metron-mpack/target
+    state: directory
+    mode: 0755
+
+- name: copying metron mpack.tar file
+  copy:
+    src: metron_mpack-0.4.0.0.tar.gz
+    dest: /root/metron/metron-deployment/packaging/ambari/metron-mpack/target/metron_mpack-0.4.0.0.tar.gz
+    force: yes
+#- name: copying metron_mpack.tar file
+#  shell: 'scp -r /root/metron_files/metron_mpack-0.4.0.0.tar.gz root@{{ ambari_ip }}:/root/metron/metron-deployment/packaging/ambari/metron-mpack/target/metron_mpack-0.4.0.0.tar.gz'
+#  delegate_to: 127.0.0.1
+
+- name: installing ambari-server
+  yum:
+    name: ambari-server
+    state: latest
+
+- name: setup ambari server
+  shell: ambari-server setup -s && touch /etc/ambari-server/configured
+
+- name: Add Metron service to Ambari by running mpack
+  shell: ambari-server install-mpack --mpack=/root/metron/metron-deployment/packaging/ambari/metron-mpack/target/metron_mpack-0.4.0.0.tar.gz --verbose
+  ignore_errors: yes
+
+- name: start amabri
+  shell: ambari-server start
+  ignore_errors: yes
