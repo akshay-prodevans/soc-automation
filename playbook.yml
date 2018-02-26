@@ -1,0 +1,24 @@
+---
+- hosts: 192.168.10.231
+  roles:
+  - ambari_node 
+  tasks:
+  - debug: msg="setup completed on ambari"
+
+- hosts: 192.168.10.232
+  roles:
+  - metron_node
+  tasks:
+  - debug: msg="setup completed on metron"
+
+- hosts: 192.168.10.233
+  roles:
+  - node1_node
+  tasks:
+  - debug: msg="setup completed on node1"
+
+- hosts: 192.168.10.234
+  roles:
+  - node2_node
+  tasks:
+  - debug: msg="setup completed on node2"
